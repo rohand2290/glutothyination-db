@@ -1,3 +1,4 @@
+import { getEntries2019 } from '@/lib/db';
 import { NextResponse } from 'next/server';
 
 const data2019 = [
@@ -7,5 +8,6 @@ const data2019 = [
 ];
 
 export async function GET() {
-  return NextResponse.json(data2019);
+  let res = await getEntries2019();
+  return NextResponse.json(res);
 } 

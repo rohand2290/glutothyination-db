@@ -1,11 +1,7 @@
 import { NextResponse } from 'next/server';
-
-const data2020 = [
-  { id: 1, data: 'Entry 1 from 2020' },
-  { id: 2, data: 'Entry 2 from 2020' },
-  { id: 3, data: 'Entry 3 from 2020' },
-];
+import { getEntries2020 } from '@/lib/db';
 
 export async function GET() {
-  return NextResponse.json(data2020);
+  const data = await getEntries2020();
+  return NextResponse.json(data);
 } 
