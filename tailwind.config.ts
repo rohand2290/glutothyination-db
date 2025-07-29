@@ -1,10 +1,7 @@
 import type { Config } from "tailwindcss"
-import defaultConfig from "shadcn/ui/tailwind.config"
 
 const config = {
-  ...defaultConfig,
   content: [
-    ...defaultConfig.content,
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
@@ -12,7 +9,6 @@ const config = {
     "*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    ...defaultConfig.theme,
     container: {
       center: true,
       padding: "2rem",
@@ -21,7 +17,13 @@ const config = {
       },
     },
     extend: {
-      ...defaultConfig.theme.extend,
+      colors: {
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -38,7 +40,7 @@ const config = {
       },
     },
   },
-  plugins: [...defaultConfig.plugins, require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate")],
 } satisfies Config
 
 export default config
