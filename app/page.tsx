@@ -30,22 +30,22 @@ export default function Home() {
         <div className="container py-6 md:py-8">
           <Tabs defaultValue="table1" className="w-full">
             <TabsList className="mb-4">
-              <TabsTrigger value="table1">Paper 1</TabsTrigger>
-              <TabsTrigger value="table2">Paper 2</TabsTrigger>
-              <TabsTrigger value="table3">Paper 3</TabsTrigger>
-              <TabsTrigger value="table4">Paper 4</TabsTrigger>
+              <TabsTrigger value="table1">Paper 2019</TabsTrigger>
+              <TabsTrigger value="table2">Paper 2020</TabsTrigger>
+              <TabsTrigger value="table3">Paper 2021</TabsTrigger>
+              <TabsTrigger value="table4">Paper 2023</TabsTrigger>
             </TabsList>
             <TabsContent value="table1">
-              <ProteinTable tableId="1" />
+              <ProteinTable tableId="2019" />
             </TabsContent>
             <TabsContent value="table2">
-              <ProteinTable tableId="2" />
+              <ProteinTable tableId="2020" />
             </TabsContent>
             <TabsContent value="table3">
-              <ProteinTable tableId="3" />
+              <ProteinTable tableId="2021" />
             </TabsContent>
             <TabsContent value="table4">
-              <ProteinTable tableId="4" />
+              <ProteinTable tableId="2023" />
             </TabsContent>
           </Tabs>
         </div>
