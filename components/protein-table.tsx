@@ -41,12 +41,14 @@ export default function ProteinTable({ tableId, query }: ProteinTableProps) {
     if (tableId === "2019") {
       const e = entry as PaperEntry2019;
       return (
+        e["Accession Number"].toLowerCase().includes(query.toLowerCase()) ||
         e["Protein name"].toLowerCase().includes(query.toLowerCase()) ||
         e["Peptide sequence"].toLowerCase().includes(query.toLowerCase())
       );
     } else if (tableId === "2020") {
       const e = entry as PaperEntry2020;
       return (
+        e["Accession #"].toLowerCase().includes(query.toLowerCase()) ||
         e["Protein Name"].toLowerCase().includes(query.toLowerCase()) ||
         e["Gene "]?.toLowerCase().includes(query.toLowerCase()) ||
         e["Peptide"].toLowerCase().includes(query.toLowerCase())
@@ -54,6 +56,7 @@ export default function ProteinTable({ tableId, query }: ProteinTableProps) {
     } else if (tableId === "2021") {
       const e = entry as PaperEntry2021;
       return (
+        e["Accession #"].toLowerCase().includes(query.toLowerCase()) ||
         e["Protein Name"].toLowerCase().includes(query.toLowerCase()) ||
         e["Gene "]?.toLowerCase().includes(query.toLowerCase()) ||
         e["Peptide"].toLowerCase().includes(query.toLowerCase())
@@ -61,6 +64,7 @@ export default function ProteinTable({ tableId, query }: ProteinTableProps) {
     } else if (tableId === "2023") {
       const e = entry as PaperEntry2023;
       return (
+        e["Accession Number"].toLowerCase().includes(query.toLowerCase()) ||
         e["Protein Name"].toLowerCase().includes(query.toLowerCase()) ||
         e["Peptide"].toLowerCase().includes(query.toLowerCase())
       );
