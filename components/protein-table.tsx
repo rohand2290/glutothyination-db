@@ -5,48 +5,17 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import type { PaperEntry2019, PaperEntry2020, PaperEntry2021, PaperEntry2020_21, PaperEntry2023 } from "@/lib/types";
+import type { PaperEntry2019, PaperEntry2020, PaperEntry2021, PaperEntry2023 } from "@/lib/types";
 
-// Mock data - in a real app, this would come from your backend
-const generateMockData = (tableId: string) => {
-  if (tableId === "2019") {
-    // PaperEntry2019
-    return Array.from({ length: 50 }, (_, i): PaperEntry2019 => ({
-      "Accession Number": `ENOA_MOUSE_${i + 1}`,
-      "First cysteine index": `${337 + i}`,
-      "Peptide sequence": `SCNCLLLK${i + 1}`,
-      "Peptide start index": `${336 + i}`,
-      "Peptide stop index": `${343 + i}`,
-      "Protein name": `Alpha-enolase OS=Mus musculus GN=Eno1 PE=1 SV=3 #${i + 1}`,
-    }));
-  } else if (tableId === "2023") {
-    // PaperEntry2023
-    return Array.from({ length: 50 }, (_, i): PaperEntry2023 => ({
-      "Accession Number": `Q8VHX6_${i + 1}`,
-      "End Position": 1200 + i,
-      "First cysteine index": 1181 + i,
-      "Peptide": `AGEAATFTVDCSEAGEAELTIEILSDAGVK${i + 1}`,
-      "Protein Name": `Filamin-C #${i + 1}`,
-      "Start Position": 1171 + i,
-    }));
-  } else {
-    // PaperEntry2020_21
-    return Array.from({ length: 50 }, (_, i): PaperEntry2020_21 => ({
-      accessionNumber: i + 2000,
-      gene: `Gene-${tableId}-${String.fromCharCode(65 + (i % 26))}${i + 1}`,
-      proteinName: `Protein-${tableId}-${i + 1}`,
-      peptide: `MTKL${i % 2 === 0 ? "C" : "A"}VLIAFAGVALA${i % 3 === 0 ? "C" : "G"}QAVDA${i % 5 === 0 ? "C" : "S"}KLDLVKR`,
-    }));
-  }
-};
+
 
 interface ProteinTableProps {
   tableId: string
+  query: string
 }
 
-export default function ProteinTable({ tableId }: ProteinTableProps) {
+export default function ProteinTable({ tableId, query }: ProteinTableProps) {
   const [currentPage, setCurrentPage] = useState(1)
-  const [searchTerm, setSearchTerm] = useState("")
   const [data, setData] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -67,41 +36,37 @@ export default function ProteinTable({ tableId }: ProteinTableProps) {
       .finally(() => setLoading(false));
   }, [tableId]);
 
-  // Filter data based on search term
+  // Filter data based on search query
   const filteredData = data.filter((entry) => {
     if (tableId === "2019") {
       const e = entry as PaperEntry2019;
       return (
-        e["Protein name"].toLowerCase().includes(searchTerm.toLowerCase()) ||
-        e["Peptide sequence"].toLowerCase().includes(searchTerm.toLowerCase())
+        e["Protein name"].toLowerCase().includes(query.toLowerCase()) ||
+        e["Peptide sequence"].toLowerCase().includes(query.toLowerCase())
       );
     } else if (tableId === "2020") {
       const e = entry as PaperEntry2020;
       return (
-        e["Protein Name"].toLowerCase().includes(searchTerm.toLowerCase()) ||
-        e["Gene "]?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        e["Peptide"].toLowerCase().includes(searchTerm.toLowerCase())
+        e["Protein Name"].toLowerCase().includes(query.toLowerCase()) ||
+        e["Gene "]?.toLowerCase().includes(query.toLowerCase()) ||
+        e["Peptide"].toLowerCase().includes(query.toLowerCase())
       );
     } else if (tableId === "2021") {
       const e = entry as PaperEntry2021;
       return (
-        e["Protein Name"].toLowerCase().includes(searchTerm.toLowerCase()) ||
-        e["Gene "]?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        e["Peptide"].toLowerCase().includes(searchTerm.toLowerCase())
+        e["Protein Name"].toLowerCase().includes(query.toLowerCase()) ||
+        e["Gene "]?.toLowerCase().includes(query.toLowerCase()) ||
+        e["Peptide"].toLowerCase().includes(query.toLowerCase())
       );
     } else if (tableId === "2023") {
       const e = entry as PaperEntry2023;
       return (
-        e["Protein Name"].toLowerCase().includes(searchTerm.toLowerCase()) ||
-        e["Peptide"].toLowerCase().includes(searchTerm.toLowerCase())
+        e["Protein Name"].toLowerCase().includes(query.toLowerCase()) ||
+        e["Peptide"].toLowerCase().includes(query.toLowerCase())
       );
     } else {
-      const e = entry as PaperEntry2020_21;
-      return (
-        e.proteinName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        e.gene.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        e.peptide.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+      // Default case - no filtering for unknown table types
+      return true;
     }
   });
 
@@ -203,14 +168,7 @@ export default function ProteinTable({ tableId }: ProteinTableProps) {
                         <TableCell>{(entry as PaperEntry2023)["End Position"]}</TableCell>
                         <TableCell>{(entry as PaperEntry2023)["First cysteine index"]}</TableCell>
                       </>
-                    ) : (
-                      <>
-                        <TableCell>{(entry as PaperEntry2020_21).accessionNumber}</TableCell>
-                        <TableCell>{(entry as PaperEntry2020_21).gene}</TableCell>
-                        <TableCell>{(entry as PaperEntry2020_21).proteinName}</TableCell>
-                        <TableCell className="font-mono text-sm">{highlightCysteine((entry as PaperEntry2020_21).peptide)}</TableCell>
-                      </>
-                    )}
+                    ) : null}
                   </TableRow>
                 ))
               ) : (

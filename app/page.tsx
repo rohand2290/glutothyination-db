@@ -1,10 +1,15 @@
+"use client";
 import { Search } from "lucide-react"
 import Link from "next/link"
 import ProteinTable from "@/components/protein-table"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useState } from "react"
 
 export default function Home() {
+
+  const [search, setSearch] = useState("");
+
   return (
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -20,6 +25,8 @@ export default function Home() {
                   type="search"
                   placeholder="Search proteins..."
                   className="w-full bg-background pl-8 md:w-[300px] lg:w-[400px]"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
                 />
               </div>
             </div>
@@ -36,16 +43,16 @@ export default function Home() {
               <TabsTrigger value="table4">Paper 2023</TabsTrigger>
             </TabsList>
             <TabsContent value="table1">
-              <ProteinTable tableId="2019" />
+              <ProteinTable tableId="2019" query={search} />
             </TabsContent>
             <TabsContent value="table2">
-              <ProteinTable tableId="2020" />
+              <ProteinTable tableId="2020" query={search} />
             </TabsContent>
             <TabsContent value="table3">
-              <ProteinTable tableId="2021" />
+              <ProteinTable tableId="2021" query={search} />
             </TabsContent>
             <TabsContent value="table4">
-              <ProteinTable tableId="2023" />
+              <ProteinTable tableId="2023" query={search} />
             </TabsContent>
           </Tabs>
         </div>
